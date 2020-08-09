@@ -1,5 +1,7 @@
 use std::fmt;
+use std::hash;
 /*
+
 
 fn fn_for_nuc(nuc) {
     match nuc {
@@ -14,7 +16,7 @@ fn fn_for_nuc(nuc) {
 pub mod dna {
     use std::fmt;
 
-    #[derive(std::hash::Hash, Eq, Copy, Clone, Debug, PartialEq)]
+    #[derive(Hash, Eq, Copy, Clone, Debug, PartialEq)]
     pub enum Nucleotide {
         A,
         C,
@@ -99,7 +101,7 @@ pub mod dna {
 pub mod rna {
     use std::fmt;
 
-    #[derive(std::hash::Hash, Eq, Copy, Clone, Debug, PartialEq)]
+    #[derive(Hash, Eq, Copy, Clone, Debug, PartialEq)]
     pub enum Nucleotide {
         A,
         C,

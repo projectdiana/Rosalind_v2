@@ -54,6 +54,10 @@ impl<T: std::hash::Hash + Eq + Clone + Copy + Display> Chain<T> {
             count.push(self.chain.len()-1);
         }
     }
+    
+    pub fn as_vec(&self) -> Vec<T> {
+        self.to_vec(|&x| Some(x))
+    }
 
 
     pub fn to_vec<U, V> (&self, func: U ) -> Vec<V>
@@ -154,8 +158,8 @@ impl<T: std::hash::Hash + Eq + Clone + Copy + Display> Chain<T> {
         }
     }
 
-    pub fn from_file<U, V>(filename: &str, map_func: U, str_func: V) -> std::io::Result< Vec<Chain<T>>>
-        where U: Fn(String) -> String,
+    pub fn from_file<U, V>(filename: &str, header_func: U, str_func: V) -> std::io::Result< Vec<Chain<T>>>
+        where U: Fn(String) -> HashMap<String, String>,
               V: Fn(&u8) -> Option<T> + Copy
         {
             use std::io::BufRead;
@@ -172,7 +176,7 @@ impl<T: std::hash::Hash + Eq + Clone + Copy + Display> Chain<T> {
                     let mut label = String::from(line);
                     label = label.replace(">","");
                     chain = Chain::new();
-                    chain.labels.insert(String::from("name"), label);
+                    chain.labels = header_func(label);
                     chain_list.push(chain);
                     if !loc.is_some() {
                         loc = Some(0)
@@ -188,10 +192,16 @@ impl<T: std::hash::Hash + Eq + Clone + Copy + Display> Chain<T> {
 
             Ok(chain_list)
         }
-    
 
 
+
+    pub fn hamming_distance(&self, chain: Chain<T>) -> usize {
+
+        self.as_vec().iter().zip(chain.as_vec().iter()).filter(|x| x.0 != x.1).count()
+    }
 }
+
+
 
 
 impl Chain<na::dna::Nucleotide> {
@@ -255,8 +265,12 @@ impl Chain<na::rna::Nucleotide> {
         codons
     }
 
+    // pub fn to_aminos(&self) -> Vec<
+
 
     
 
 
 }
+
+

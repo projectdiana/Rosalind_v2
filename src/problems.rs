@@ -5,3 +5,4 @@ pub mod fib;
 pub mod fibd;
 pub mod subs;
 pub mod hamm;
+pub mod gc;

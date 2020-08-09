@@ -1,21 +1,22 @@
-pub fn solve(n: usize, k: usize, m: usize) {
+pub fn solve(n: usize, k: u128, m: u64) {
     if n < 2 {
         println!("1")
     } else {
-        let mut vec :Vec<usize> = vec![1,1];
+        let mut vec: Vec<[u128; 2]> = vec![[0,1],[1,0]];
         for i in 2..n {
-            let mut dead: usize = 0;
-            // subtract all of the children that were first alive m rounds months ago
-            if i < m || i == m+1 {
-                dead = 0
-            } else if i ==  m {
-                dead = vec[0]
-            } else {
-                dead = vec[i-m-1]*k;
-            }
-            vec.push(vec[i-2]*k + vec[i-1] - dead);
-            println!("{:?}, {:?}, {}", vec, dead, i);
+            // children = adults from last round * reproduction rate
+            let children: u128 = vec[i-1][0]*k;
+            let adults: u128 = vec.iter()
+                                   .enumerate()
+                                   .filter(|(idx, val)| {
+                                       (*idx < i) && (*idx as isize > i as isize - m as isize) 
+                                    })
+                                   .map(|x| x.1[1])
+                                   .sum();
+            vec.push([adults,children]);
+            // println!("{:?}", vec);
+            println!("{:?}, {}",vec, adults+children);
+
         }
-        println!("{}", vec.pop().unwrap());
     }
 }

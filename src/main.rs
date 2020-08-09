@@ -10,7 +10,7 @@ fn main() {
     // let mut rna = dna.to_rna();
     // println!("{:?}", rna);
 
-    // problems::fibd::solve(6,1,3 );
-    problems::hamm::solve();
+    // problems::fibd::solve(96,1,16 );
+    problems::gc::solve();
 
 }
