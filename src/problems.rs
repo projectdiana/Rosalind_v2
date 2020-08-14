@@ -6,3 +6,4 @@ pub mod fibd;
 pub mod subs;
 pub mod hamm;
 pub mod gc;
+pub mod iprb;
